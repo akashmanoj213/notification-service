@@ -4,6 +4,7 @@ const cors = require('cors');
 
 //load environment variables from .env
 if (process.env.NODE_ENV !== 'production') {
+    console.log("Loading env variables...");
     require('dotenv').config({ override: "true" });
 }
 
