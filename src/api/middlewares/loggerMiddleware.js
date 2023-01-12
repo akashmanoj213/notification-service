@@ -3,13 +3,12 @@ const config = require('config');
 // const crypto = require('crypto');
 const { logger, LOGGING_TRACE_KEY } = require('../../utils/logger');
 const { setTraceId } = require("../../utils/traceId");
-const { retrieveTraceId } = require("../../utils/clients/pubSubClient")
 
 if(!config.has("projectId")) console.log("Please set projectId in config files");
 
 const PROJECT_ID = config.get("projectId");
 
-const traceLogger = (req, res, next) => {
+const loggerMiddleware = (req, res, next) => {
     const requestStartMs = Date.now();
     const traceId = extractTraceId(req);
 
@@ -82,11 +81,12 @@ const createResponse = (res, latencyMilliseconds) => {
 
 const extractTraceId = (req) => {
     let traceId;
+
     try {
         if(req.headers['trace-id']) {
-            traceId = req.headers['trace-id']
-        } else if(req.body && req.body.message) {
-            traceId = retrieveTraceId(req.body);
+            traceId = req.headers['trace-id'];
+        } else if(req.body && req.body.message && req.body.message.attributes && req.body.message.attributes.traceId) {
+            traceId = req.body.message.attributes.traceId;
         } else {
             traceId = uuid.v4();
             logger.info("TraceId not found. Using new traceId:", traceId);
@@ -99,4 +99,4 @@ const extractTraceId = (req) => {
     return traceId;
 }
 
-module.exports = traceLogger
+module.exports = loggerMiddleware;

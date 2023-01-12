@@ -1,13 +1,13 @@
 const express = require('express');
 const cors = require('cors');
-const notificationRoutes = require('./api/routes/notification');
-const traceLogger = require('./api/middlewares/traceLogger');
+const paymentRoutes = require('./api/routes/payment');
+const loggerMiddleware = require('./api/middlewares/loggerMiddleware');
 const errorHandler = require('./api/middlewares/errorHandler');
 
 const app = express();
 
 //Application Middlewares
-app.use(traceLogger);
+app.use(loggerMiddleware);
 
 app.use(express.json());
 app.use(cors());
@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
 });
 
 //Routes
-app.use('/notification', notificationRoutes);
+app.use('/payment', paymentRoutes);
 
 //Global Error handling
 app.use(errorHandler);
