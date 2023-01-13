@@ -82,7 +82,7 @@ const createResponse = (res, latencyMilliseconds) => {
 
 const extractTraceId = (req) => {
     let traceId;
-    logger.info({req: req}, "test");
+    logger.info({req: req}, "test notification log");
 
     try {
         if(req.headers['trace-id']) {
