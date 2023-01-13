@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const paymentRoutes = require('./api/routes/payment');
+const notificationRoutes = require('./api/routes/notification');
 const loggerMiddleware = require('./api/middlewares/loggerMiddleware');
 const errorHandler = require('./api/middlewares/errorHandler');
 
@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
 });
 
 //Routes
-app.use('/payment', paymentRoutes);
+app.use('/notification', notificationRoutes);
 
 //Global Error handling
 app.use(errorHandler);
