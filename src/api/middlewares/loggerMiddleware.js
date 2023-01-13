@@ -10,6 +10,7 @@ const PROJECT_ID = config.get("projectId");
 
 const loggerMiddleware = (req, res, next) => {
     const requestStartMs = Date.now();
+    logger.info({req}, "Initial test");
     const traceId = extractTraceId(req);
 
     setTraceId(traceId);
@@ -81,7 +82,7 @@ const createResponse = (res, latencyMilliseconds) => {
 
 const extractTraceId = (req) => {
     let traceId;
-    logger.info({body: req.body}, "test");
+    logger.info({req: req}, "test");
 
     try {
         if(req.headers['trace-id']) {
