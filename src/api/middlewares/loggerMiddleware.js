@@ -10,7 +10,7 @@ const PROJECT_ID = config.get("projectId");
 
 const loggerMiddleware = (req, res, next) => {
     const requestStartMs = Date.now();
-    logger.info({req}, "Initial test");
+    logger.info({req}, "Initial notification test");
     const traceId = extractTraceId(req);
 
     setTraceId(traceId);
