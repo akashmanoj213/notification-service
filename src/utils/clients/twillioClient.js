@@ -14,7 +14,8 @@ const sendMessage = async (body = sampleMessage, receiverNumber) => {
         .create({
             body, // 'This is the ship that made the Kessel Run in fourteen parsecs?',
             from: senderNumber,
-            to: "+919972976940" // Trial allows sending SMS to only this number
+            // to: "+919972976940" // Trial allows sending SMS to only this number
+            to: "+917338237931"
         });
 
     return response;
