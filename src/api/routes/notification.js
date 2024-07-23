@@ -1,8 +1,8 @@
 const express = require('express');
-const { sendSMS, processMessage } = require('../../controllers/notification');
+const { sendSMS } = require('../../controllers/notification');
+const { sendMessage } = require('../../controllers/whatsapp');
 const { formatMessageData } = require('../../utils/clients/pubSubClient');
 const { success, error, validation } = require('./util');
-const { sendMessage } = require('../../controllers/whatsapp');
 const textMessageSchema = require('../../models/schema/textMessage');
 const claimCreatedSchema = require('../../models/schema/claimCreatedTemplate');
 
@@ -49,6 +49,50 @@ router.post('/consumer', async (req, res) => {
     return res.status(500).json(error(res.statusCode, err.message));
   }
 });
+
+const processMessage = async (type, data) => {
+  try {
+    if (type === 'SMS') {
+      const { body, receiverNumber } = data;
+      return await sendSMS(body, receiverNumber);
+    } else if (type === 'whatsapp') {
+      return await sendWhatsappMessage(body);
+    }
+  } catch (err) {
+    logger.error(err, `Error occured while processing message!`);
+    throw err;
+  }
+};
+
+const sendWhatsappMessage = async (body) => {
+  try {
+    const { type, name, phoneNumber } = body;
+    if (!phoneNumber || phoneNumber.length !== 12) {
+      throw new Error(
+        'phoneNumber must be a valid 10 digit string with country code !'
+      );
+    }
+    if (!type) {
+      throw new Error('type is required');
+    } else if (type === 'template' && !name) {
+      throw new Error('name is required');
+    }
+
+    const validationError = validateRequest(req.body);
+
+    if (validationError) {
+      throw new Error(
+        'Error occured during request validation: ',
+        validationError
+      );
+    }
+
+    return await sendMessage(req.body);
+  } catch (err) {
+    logger.error(err, `Error occured in sendWhatsappMessage : ${err.message}`);
+    throw err;
+  }
+};
 
 router.post('/sms', async (req, res) => {
   try {

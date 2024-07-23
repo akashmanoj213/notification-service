@@ -8,9 +8,9 @@ class ClaimCreatedTemplate {
       totalClaimAmount,
     } = claimObj;
 
-    this.name = 'policy_document';
+    this.name = 'customer_claim_raised';
     this.language = {
-      code: 'en',
+      code: 'en_US',
     };
 
     this.components = [
