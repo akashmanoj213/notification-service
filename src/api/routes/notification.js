@@ -64,12 +64,13 @@ const processMessage = async (type, data) => {
   }
 };
 
-const sendWhatsappMessage = async (body) => {
+//type, name, receiverNumber with +91, body, claimId, claimType, patientFullName, caretakerContactNumber, totalClaimAmount
+const sendWhatsappMessage = async (data) => {
   try {
-    const { type, name, phoneNumber } = body;
-    if (!phoneNumber || phoneNumber.length !== 12) {
+    const { type, name, receiverNumber } = data;
+    if (!receiverNumber || receiverNumber.length !== 12) {
       throw new Error(
-        'phoneNumber must be a valid 10 digit string with country code !'
+        'receiverNumber must be a valid 10 digit string with country code !'
       );
     }
     if (!type) {
@@ -78,7 +79,7 @@ const sendWhatsappMessage = async (body) => {
       throw new Error('name is required');
     }
 
-    const validationError = validateRequest(req.body);
+    const validationError = validateRequest(data);
 
     if (validationError) {
       throw new Error(
@@ -87,7 +88,7 @@ const sendWhatsappMessage = async (body) => {
       );
     }
 
-    return await sendMessage(req.body);
+    return await sendMessage(data);
   } catch (err) {
     logger.error(err, `Error occured in sendWhatsappMessage : ${err.message}`);
     throw err;
@@ -111,9 +112,9 @@ router.post('/sms', async (req, res) => {
 
 // type, name, phoneNumber with +91, body, claimId, claimType, patientFullName, caretakerContactNumber, totalClaimAmount
 router.post('/whatsapp', async (req, res) => {
-  const { type, name, phoneNumber } = req.body;
+  const { type, name, receiverNumber } = req.body;
 
-  if (!phoneNumber || phoneNumber.length !== 12) {
+  if (!receiverNumber || receiverNumber.length !== 12) {
     return res
       .status(400)
       .json(

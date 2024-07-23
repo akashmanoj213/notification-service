@@ -7,12 +7,12 @@ const { post } = require('../utils/clients/axiosClient');
 const BEARER_TOKEN = process.env.BEARER_TOKEN;
 
 const sendMessage = async (data) => {
-  const { type, phoneNumber } = data;
+  const { type, receiverNumber } = data;
 
   const request = {
     messaging_product: 'whatsapp',
     recipient_type: 'individual',
-    to: phoneNumber,
+    to: receiverNumber,
   };
 
   switch (type) {
