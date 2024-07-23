@@ -56,7 +56,7 @@ const processMessage = async (type, data) => {
       const { body, receiverNumber } = data;
       return await sendSMS(body, receiverNumber);
     } else if (type === 'whatsapp') {
-      return await sendWhatsappMessage(body);
+      return await sendWhatsappMessage(data);
     }
   } catch (err) {
     logger.error(err, `Error occured while processing message!`);
