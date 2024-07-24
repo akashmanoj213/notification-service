@@ -32,6 +32,7 @@ router.post('/consumer', async (req, res) => {
 
     req.log.info({ body: req.body }, `Consuming message...${messageId}`);
     const jsonObj = formatMessageData(data);
+    req.log.info({ jsonObj });
 
     const result = await processMessage(type, jsonObj);
 
