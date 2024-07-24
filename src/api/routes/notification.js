@@ -59,7 +59,7 @@ const processMessage = async (type, data) => {
       return await sendWhatsappMessage(data);
     }
   } catch (err) {
-    logger.error(err, `Error occured while processing message!`);
+    console.log(err, `Error occured while processing message!`);
     throw err;
   }
 };
@@ -90,7 +90,7 @@ const sendWhatsappMessage = async (data) => {
 
     return await sendMessage(data);
   } catch (err) {
-    logger.error(err, `Error occured in sendWhatsappMessage : ${err.message}`);
+    console.log(`Error occured in sendWhatsappMessage : ${err.message}`);
     throw err;
   }
 };
