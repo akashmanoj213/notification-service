@@ -9,3 +9,6 @@ CMD [ "node", "src/server.js" ]
 ENV NODE_ENV=production
 ENV PORT=5000
 ENV SERVICE_NAME=notification-service
+ENV SMTP_HOST=prodsendgridaz1.pru.intranet.asia
+ENV SMTP_PORT=25
+ENV SENDER_ADDRESS=no_reply@prudentialhealth.in

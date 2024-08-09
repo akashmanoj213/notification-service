@@ -1,5 +1,5 @@
 const express = require('express');
-const { sendSMS } = require('../../controllers/notification');
+const { sendSMS, sendEmail } = require('../../controllers/notification');
 const { sendMessage } = require('../../controllers/whatsapp');
 const { formatMessageData } = require('../../utils/clients/pubSubClient');
 const { success, error, validation } = require('./util');
@@ -183,6 +183,13 @@ router.get('/webhook', (req, res) => {
     }
   }
 });
+
+router.post('/email',(req, res) => {
+  //This will be the Verify Token value when you set up webhook
+  const { subject,  to,bcc, cc, templateName,  templateParams, attachmentsBase64} = req.body;
+  let result =  sendEmail(subject, to,bcc, cc, templateName,  templateParams, attachmentsBase64)
+  res.status(200).send(result);
+} )
 
 const validateRequest = (body) => {
   const { type } = body;
